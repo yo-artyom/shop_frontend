@@ -14,7 +14,12 @@ import CFooter from './layouts/CFooter.vue'
 import Category from './components/Category.vue'
 export default {
   name: 'app',
-	components: { Category, CHeader, CFooter }
+	components: { Category, CHeader, CFooter },
+	methods: {
+		image_url(path) {
+			return API_URL + path;
+		}
+	}
 }
 </script>
 

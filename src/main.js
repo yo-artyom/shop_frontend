@@ -8,8 +8,16 @@ import router from './router.js'
 
 window.API_URL = 'http://localhost:1488'
 
+Vue.mixin({
+	methods: {
+		image_url(path) {
+			return API_URL + path;
+		}
+	}
+});
+
 new Vue({
   el: '#app',
   render: h => h(App),
 	router
-})
+});

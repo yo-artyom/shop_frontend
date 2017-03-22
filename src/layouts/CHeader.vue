@@ -2,7 +2,7 @@
 <header>
 	<div class="row">
 		<div class="col-sm-4">
-			<h2>Sometext</h2>
+			<h2>Some text</h2>
 		</div>
 		<div class="col-sm-4">
 			<router-link to='/'>

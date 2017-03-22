@@ -1,7 +1,8 @@
 <template>
 	<div>
 		<div class="product-grid" v-for='p in products'>
-			<product-element :name='p.name' :image_path='p.image_path' :options='p.options'>
+			<product-element :name='p.name' :image_path='p.image_path' 
+											:options='p.options' :slug='p.slug'>
 			</product-element>
 		</div>
 	</div>

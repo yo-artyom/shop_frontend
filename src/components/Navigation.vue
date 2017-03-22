@@ -4,7 +4,7 @@
 		<li v-for='node in tree' class='nav-item dropdown'>
 
 			<template v-if='withoutChilds(node)'>
-				<router-link :to=categoryPath(node.parent)>
+			<router-link :to="{ name: 'category', params: {slug: node.parent.slug} }">
 					{{ node.parent.name }}
 				</router-link>	
 			</template>
@@ -15,7 +15,7 @@
 				</a>
 				<ul class='sub-nav dropdown-menu' v-if='!withoutChilds(node)'>
 				 <li v-for='child in node.childs' >
-					 <router-link :to="categoryPath(child)">
+					 <router-link :to="{ name: 'category', params: {slug: child.slug} }">
 					 {{ child.name }}
 					</router-link>
 				 </li>
