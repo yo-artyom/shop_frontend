@@ -1,4 +1,4 @@
-# vue-tutorial
+# vue-shop
 
 > A Vue.js project
 
