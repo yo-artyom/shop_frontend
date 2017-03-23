@@ -10,7 +10,7 @@
 			</router-link>
 		</div>
 		<div class="col-sm-4">
-			<h2>Some text</h2>
+			<cart></cart>
 		</div>
 	</div>
 	<navigation></navigation>
@@ -19,9 +19,10 @@
 
 <script>
 import Navigation from '../components/Navigation.vue'
+import Cart from '../components/Cart.vue'
 export default {
 	name: 'c-header',
-	components: { Navigation }
+	components: { Navigation, Cart }
 }
 </script>
 
