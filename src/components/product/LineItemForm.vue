@@ -24,7 +24,8 @@ export default {
 	methods: {
 		submitForm(){
 			axios.post(API_URL + '/line_items', Object.assign({option_ids: this.optionIds()},{id: this.id}))
-				.then((resp) => console.log(resp));
+				.then((resp) => console.log(resp))
+				.catch( (error) => console.log(error) )
 		},
 		optionIds(){
 			return this.options.map((opt) => opt.values[0].id)

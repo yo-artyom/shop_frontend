@@ -12,7 +12,8 @@
 				<div class="product_desc">
 					<h1 class="product-title" itemprop="name"> {{ product.name }}</h1>
 					<div class="product_desc_manufacturer">
-						Производитель: {{ product.manufacturer.name }}
+						Производитель: 
+						<span v-if='product.manufacturer' v-text='product.manufacturer.name'></span>
 					</div>
 					<div class="product_article">
 						Артикул: {{ product.article }}
@@ -52,6 +53,7 @@ export default {
 		getProduct() {
 			axios.get(`${API_URL}/catalog/${this.$route.params.slug}/product/${this.$route.params.id}`)
 				.then( (resp) => this.product = resp.data )
+				.catch( (error) => console.log(error) )
 		}
 	},
 	components: { Breadcrumbs, LineItemForm },
