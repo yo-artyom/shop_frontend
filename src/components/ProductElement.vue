@@ -2,7 +2,8 @@
 <div class="product col-sm-3">
 	<router-link :to="{ path: 'product/' + slug }" append>
 		<img :src="image_url(image_path)" alt="name">
-		<div class="product_name" v-text='name'></div>
+		<div class="product product_name" v-text='name'></div>
+		<div class="product product_price" v-text='price'></div>
 	</router-link>
 </div>
 </template>
@@ -10,7 +11,7 @@
 <script>
 export default {
 	name: 'product_element',
-	props: ['name', 'image_path', 'options', 'slug'],
+	props: ['name', 'image_path', 'options', 'slug', 'price', 'old_price'],
 	data(){
 		return { }
 	}

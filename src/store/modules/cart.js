@@ -1,23 +1,35 @@
+import axios from 'axios'
+import Cookies from 'js-cookie'
+
 const state = {
 	id: -1,
 	line_items: []
 }
 
 const getters = {
-	total_count: state => {
-		return 1488
+	totalPrice: state => {
+		return state.line_items.reduce((prev, item) => { 
+			return (prev + parseInt(item.product.price)) 
+		}, 0)	
 	},
-	line_items: state => state.line_items
+	lineItems: state => state.line_items,
+	cartId: state => state.id
 }
 
 const actions = {
 	getCartId(context) {
-		const cart_id = 100;
-		context.commit('setId', cart_id);
+		axios.post(`${API_URL}/carts`, { cart_id: Cookies.get('cart_id') })
+			.then( (resp) =>  { 
+				const cart_id = resp.data.cart_id 
+				Cookies.set('cart_id', cart_id, { expires: 7 });
+				context.commit('setId', cart_id)
+			})
 	},
 	getLineItems(context) {
-		const line_items =  window.mock_line_items
-		context.commit('setLineItems', line_items)
+		axios.get(`${API_URL}/carts/${Cookies.get('cart_id')}/line_items`).then( (resp) => { 
+							const line_items = resp.data;
+							context.commit('setLineItems', line_items)
+						})
 	},
 	addToCart(context, data){
 		// axios.post('/line_items', data).then((resp) => {
@@ -70,6 +82,10 @@ const mutations = {
 			return (li.id == line_item.id)
 		})
 		state.line_items.splice(l, 1)
+	},
+
+	totalCount(state) {
+		state.line_items.reduce((prev, item) => {prev + item.price}, 0)	
 	}
 }
 

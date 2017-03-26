@@ -8,6 +8,7 @@
 			</select>
 		</div>
 	</div>
+	<slot name='price'></slot>
 	<button class='btn'>Добавить в корзину</button>
 </form>
 </template>

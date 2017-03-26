@@ -1,16 +1,27 @@
 <template>
 <div class="cart">
-	<div class="cart-outside">
-
-		<div class="cart_icon">
+	<div class="cart-outside" @mouseover="cartVisible = true">
+			<span class="cart-outside__total-price">
+				{{ this.totalPrice }}
+			</span>
+		<div class="cart-outside__icon">
 		</div>
-		
-		<div class="cart_total">
-		</div>
-
 	</div>
 
-	<div class="cart-inside">
+	<div class="cart-inside" v-show='cartVisible' @mouseover="cartVisible = true" @mouseout="cartVisible = false">
+		<div class="row cart-inside line-item" v-for='line_item in lineItems'>
+			<div class="cart-inside line_item line_item__name">
+				{{ line_item.product.name }}
+			</div>
+			<div class="cart-inside line_item line_item__price">
+				{{ line_item.product.price }}
+			</div>
+			<div class="cart-inside line_item line_item__options">
+				<div class="cart-inside line_item line_item__option" v-for='(values, option) in line_item.product.options'>
+					{{option}} -- {{values.join(' ')}}
+				</div>
+			</div>
+		</div>
 	</div>
 
 </div>
@@ -20,19 +31,30 @@
 import { mapMutations,mapActions, mapGetters } from 'vuex'
 export default {
 	name: 'cart',
+	data() {
+		return {
+			cartVisible: false	
+		}
+	},
 	created() {
-		this.$store.dispatch('getCartId')
-		this.$store.dispatch('getLineItems')
+		this.getCartId()
+		this.getLineItems()
 	},
 	computed: mapGetters([
-		'line_items',
+		'cartId',
+		'lineItems',
+		'totalPrice'
 	]),
 	methods: mapActions([
-		'addToCart',
-		'removeFromCart'
-	])
+			'getCartId',
+			'getLineItems',
+			'addToCart',
+			'removeFromCart'
+		])
 }
 </script>
 
 <style lang="scss">
+.cart {
+}
 </style>

@@ -25,7 +25,9 @@
 
 				<div class="product_options">
 					<h2>Доступные варианты</h2>
-					<line-item-form :id='product.id' :options='product.options'></line-item-form>
+					<line-item-form :id='product.id' :options='product.options'>
+						<template slot='price'> {{ product.price }} </template>
+					</line-item-form>
 				</div>
 			
 			</div>
