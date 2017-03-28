@@ -2,8 +2,8 @@
 <form class="form-horizontal" role="form" id="new_line_item" @submit.prevent='submitForm' accept-charset="UTF-8" method="post">
 	<div class="option" v-for='option in options'>
 		<div class="option-name">
-			{{ option.name}}
-			<select name="option_ids" v-model.lazy='option.slug' required>
+			{{ option.slug}}
+			<select v-model='selectedOptions[option.slug]' required>
 				<option v-for='value in option.values' :value="value.id"> {{ value.name }} </option>
 			</select>
 		</div>
@@ -21,23 +21,27 @@ export default {
 	props: ['id', 'options'],
 	data(){ 
 		return {
-			selectedOptions: [] 
+			selectedOptions: {},
+			test: 1
 		}
 	},
 	methods: {
 		...mapActions(['addToCart']),
-		submitForm(){
+		submitForm() {
 			const product_id = this.id
-			const option_ids = this.optionIds()
+			const option_ids = this.selectedOptionIds()
 			this.addToCart({ product_id, option_ids })
 		},
-		optionIds(){
-			return this.options.map((opt) => opt.values[0].id)
+		selectedOptionIds() {
+			return Object.keys(this.selectedOptions)
+				.map(val => this.selectedOptions[val])
 		}
 	},
 	watch: {
 		options: function(val) {
-			this.selectedOptions = val.map((opt) => opt.values[0].id)	
+			let default_options = {}
+			val.map((opt) => { default_options[opt.slug] = opt.values[0].id })
+			this.selectedOptions = default_options
 		}
 	}
 }	
