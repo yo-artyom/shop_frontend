@@ -30,6 +30,7 @@
 
 <script>
 import axios from 'axios'
+import routes from '../api/routes'
 export default {
 	name: 'navigation',
 	data(){
@@ -42,14 +43,14 @@ export default {
 	},
 	methods: {
 		getTree() {
-			axios.get(`${API_URL}/navigation`)
+			axios.get(routes.navigation)
 				.then( (resp) => this.tree = resp.data )
 		},
 		withoutChilds(node) {
 			return node.childs.length == 0;
 		},
 		categoryPath(category) {
-			return `/catalog/${category.slug}`
+			return routes.category(category.slug)
 		}
 	}
 }

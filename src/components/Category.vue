@@ -9,8 +9,9 @@
 
 <script>
 import axios from 'axios'
-import ProductGrid from './ProductGrid.vue';
-import Breadcrumbs from './Breadcrumbs.vue';
+import ProductGrid from './ProductGrid.vue'
+import Breadcrumbs from './Breadcrumbs.vue'
+import routes from '../api/routes'
 export default {
 	name: 'category',
 	data(){
@@ -23,8 +24,8 @@ export default {
 	},
 	methods: {
 		getCategory() {
-			axios.get(`${API_URL}/catalog/${this.$route.params.slug}`)
-				.then( (resp) => this.category= resp.data )
+			axios.get( routes.catalog.category(this.$route.params.slug) )
+				.then( (resp) => this.category = resp.data )
 		}
 	},
 	components: {ProductGrid, Breadcrumbs},

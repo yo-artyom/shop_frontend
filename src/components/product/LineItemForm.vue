@@ -3,7 +3,7 @@
 	<div class="option" v-for='option in options'>
 		<div class="option-name">
 			{{ option.name}}
-			<select name="line_item[option_ids][]" v-model.lazy='option.slug' required>
+			<select name="option_ids" v-model.lazy='option.slug' required>
 				<option v-for='value in option.values' :value="value.id"> {{ value.name }} </option>
 			</select>
 		</div>
@@ -14,22 +14,30 @@
 </template>
 
 <script>
-import axios from 'axios'
+import Cookies from 'js-cookie'
+import { mapActions } from 'vuex'
 export default {
 	name: 'line-item-form',
 	props: ['id', 'options'],
-	data(){
+	data(){ 
 		return {
+			selectedOptions: [] 
 		}
 	},
 	methods: {
+		...mapActions(['addToCart']),
 		submitForm(){
-			axios.post(API_URL + '/line_items', Object.assign({option_ids: this.optionIds()},{id: this.id}))
-				.then((resp) => console.log(resp))
-				.catch( (error) => console.log(error) )
+			const product_id = this.id
+			const option_ids = this.optionIds()
+			this.addToCart({ product_id, option_ids })
 		},
 		optionIds(){
 			return this.options.map((opt) => opt.values[0].id)
+		}
+	},
+	watch: {
+		options: function(val) {
+			this.selectedOptions = val.map((opt) => opt.values[0].id)	
 		}
 	}
 }	

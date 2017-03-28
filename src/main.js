@@ -6,8 +6,7 @@ import store from './store/index'
 Vue.use(VueRouter)
 
 import router from './router.js'
-
-window.API_URL = 'http://localhost:1488'
+import {API_URL} from './api/routes'
 
 Vue.mixin({
 	methods: {

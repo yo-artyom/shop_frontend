@@ -1,5 +1,6 @@
 import axios from 'axios'
 import Cookies from 'js-cookie'
+import routes from '../../api/routes'
 
 const state = {
 	id: -1,
@@ -18,7 +19,7 @@ const getters = {
 
 const actions = {
 	getCartId(context) {
-		axios.post(`${API_URL}/carts`, { cart_id: Cookies.get('cart_id') })
+		axios.post(routes.carts, { cart_id: Cookies.get('cart_id') })
 			.then( (resp) =>  { 
 				const cart_id = resp.data.cart_id 
 				Cookies.set('cart_id', cart_id, { expires: 7 });
@@ -26,33 +27,26 @@ const actions = {
 			})
 	},
 	getLineItems(context) {
-		axios.get(`${API_URL}/carts/${Cookies.get('cart_id')}/line_items`).then( (resp) => { 
+		axios.get(routes.line_items).then( (resp) => { 
 							const line_items = resp.data;
 							context.commit('setLineItems', line_items)
 						})
 	},
 	addToCart(context, data){
-		// axios.post('/line_items', data).then((resp) => {
-		// const line_item = resp.data 
-		// }
-		const line_item = { id: 4,
-			quantity: 2,
-			product: {
-				price: 150,
-				name: 'item-2',
-				options: {size: 'xs', color: 'red'},
-				image: 'https://uspehkrasoty.ru/system/images/pictures/000/004/153/thumb/6874_2.jpg?1489616460'
-			}
-		}
-		context.commit('addLineItem', line_item)
+		axios.post(routes.line_items, {
+		 	product_id: data.product_id,
+		 	option_ids: data.option_ids
+		}).then((resp) => {
+		  const line_item = resp.data 
+			context.commit('addLineItem', line_item)
+		}).catch( (err) => console.log(err) )
 	},
 	removeFromCart(context, data) {
-		// axios.delete('/line_items', data)
-		// 						.then((_resp) => {
-		// 							const line_item = data.line_item
-		// 						})
-		const line_item = [{id: 2}]
-		context.commit('removeLineItem', line_item)
+		axios.delete(routes.line_item(data.id))
+		.then((resp) => {
+			const line_item = resp.data;
+			context.commit('removeLineItem', line_item)
+		})
 	}
 }
 
@@ -69,7 +63,7 @@ const mutations = {
 		const l = state.line_items.findIndex((li, _i, _a) => {
 			return (li.id == line_item.id)
 		})
-		if (l == -1 ){
+		if ( l == -1 ){
 			state.line_items.push(line_item)
 		}
 		else {
@@ -95,25 +89,3 @@ export default {
 	  actions,
 	  mutations
 }
-
-
-window.mock_line_items = [
-	{ id: 1, 
-	 quantity: 1,
-	 product: {
-		 price: 100,
-		 name: 'item-1', 
-		 options: {size: 'xs', color: 'red'},
-		 image: 'https://uspehkrasoty.ru/system/images/pictures/000/004/153/thumb/6874_2.jpg?1489616460'
-	 }
-	 },
-	{ id: 2,
-		quantity: 1,
-		product: {
-			price: 150,
-			name: 'item-2',
-			options: {size: 'xs', color: 'red'},
-			image: 'https://uspehkrasoty.ru/system/images/pictures/000/004/153/thumb/6874_2.jpg?1489616460'
-		}
-	}
-]

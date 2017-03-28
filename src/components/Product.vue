@@ -38,9 +38,9 @@
 
 <script>
 import axios from 'axios'
-import Breadcrumbs from './Breadcrumbs.vue';
-import LineItemForm from './product/LineItemForm.vue';
-
+import Breadcrumbs from './Breadcrumbs.vue'
+import LineItemForm from './product/LineItemForm.vue'
+import routes from '../api/routes'
 export default {
 	name: 'product',
 	data(){
@@ -53,7 +53,7 @@ export default {
 	},
 	methods: {
 		getProduct() {
-			axios.get(`${API_URL}/catalog/${this.$route.params.slug}/product/${this.$route.params.id}`)
+			axios.get(routes.catalog.product( this.$route.params.slug, this.$route.params.id ))
 				.then( (resp) => this.product = resp.data )
 				.catch( (error) => console.log(error) )
 		}
