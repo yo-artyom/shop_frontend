@@ -1,9 +1,11 @@
 <template>
-<div class="application">
-	<div class="container">
-		<c-header></c-header>
-		<router-view></router-view>
-		<c-footer></c-footer>
+<div id='app'>
+	<div class="application">
+		<div class="container">
+			<c-header></c-header>
+			<router-view></router-view>
+			<c-footer></c-footer>
+		</div>
 	</div>
 </div>
 </template>

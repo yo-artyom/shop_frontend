@@ -1,12 +1,13 @@
 import Vue from 'vue'
-import VueRouter from 'vue-router'
 import App from './App.vue'
-import store from './store/index'
+import store from './store'
+import router from './router'
+import VueRouter from 'vue-router'
+import {sync} from 'vuex-router-sync'
+import {API_URL} from './api/routes'
 
 Vue.use(VueRouter)
-
-import router from './router.js'
-import {API_URL} from './api/routes'
+sync(store, router)
 
 Vue.mixin({
 	methods: {
@@ -16,9 +17,10 @@ Vue.mixin({
 	}
 });
 
-new Vue({
-  el: '#app',
+const app = new Vue({
 	store,
   render: h => h(App),
 	router
 });
+
+export { app, router, store }
