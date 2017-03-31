@@ -20,9 +20,13 @@
 			</div>
 			
 			<div class="cart-inside line_item line_item__options">
-				<div class="cart-inside line_item line_item__option" v-for='(values, option) in line_item.product.options'>
-					{{option}} -- {{values.join(' ')}}
+				<div class="cart-inside line_item line_item__option" v-for='(value, option) in line_item.options'>
+					{{option}} -- {{value.name}}
 				</div>
+			</div>
+
+			<div class="cart-inside line_item line_item__quantity">
+				<span v-text='line_item.quantity'></span>
 			</div>
 
 			<div class="cart-inside line_item line_item__remove" @click='removeFromCart(line_item)'>

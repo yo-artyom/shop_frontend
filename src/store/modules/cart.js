@@ -10,7 +10,7 @@ const state = {
 const getters = {
 	totalPrice: state => {
 		return state.line_items.reduce((prev, item) => { 
-			return (prev + parseInt(item.product.price)) 
+			return ( prev + parseInt(item.product.price) * parseInt(item.quantity) )
 		}, 0)	
 	},
 	lineItems: state => state.line_items,
